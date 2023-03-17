@@ -49,10 +49,10 @@ LiveRTC.prototype.joinAsAudience = async function (channel, token, id) {
       await this.client.leave();
     }
     this.options.uid = await this.client.join(
-      this.options.appid,
-      channel,
-      token || null,
-      id || null
+        this.options.appid,
+        channel,
+        token || null,
+        id || null
     );
     this.listenVolumn()
     this.joinedRoom[channel] = true
@@ -68,10 +68,10 @@ LiveRTC.prototype.joinAsHost = async function (channel, token, id) {
   // console.log('joinAsHost', channel, token, id)
 
   this.options.uid = await this.client.join(
-    this.options.appid,
-    channel,
-    token || null,
-    id || null
+      this.options.appid,
+      channel,
+      token || null,
+      id || null
   );
   this.listenVolumn()
 
@@ -93,10 +93,10 @@ LiveRTC.prototype.joinAsCall = async function (channel, token, id) {
   this.client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
 
   this.options.uid = await this.client.join(
-    this.options.appid,
-    channel,
-    token || null,
-    id || null
+      this.options.appid,
+      channel,
+      token || null,
+      id || null
   );
   this.listenVolumn()
 
@@ -274,6 +274,30 @@ LiveRTC.prototype.handleUserPublished = async function (user, mediaType) {
     }
   }, 200)
 
+}
+
+LiveRTC.prototype.handleUserUnpublished = function (user, mediaType) {
+  if (mediaType === 'video') {
+    let id = user.uid;
+    for (let i = 0; i < this.remoteUsers.length; i++) {
+      if (this.remoteUsers[i].uid == id) {
+        this.remoteUsers[i].hasVideoTrack = false
+        // if(this.remoteUsers[i].hasAudioTrack !== true)
+        //   this.remoteUsers.splice(i, 1)
+      }
+    }
+  }
+  if (mediaType === 'audio') {
+    let id = user.uid;
+    for (let i = 0; i < this.remoteUsers.length; i++) {
+      if (this.remoteUsers[i].uid == id) {
+        this.remoteUsers[i].hasAudioTrack = false
+        // if(this.remoteUsers[i].hasVideoTrack !== true)
+        //   this.remoteUsers.splice(i, 1)
+      }
+    }
+  }
+  store.commit("setLiveVideos", this.remoteUsers);
 }
 
 
