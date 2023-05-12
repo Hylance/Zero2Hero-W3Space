@@ -1,6 +1,13 @@
-# Scaling-Ethereum-2023-W3Space
+# Zero2Hero-W3Space
 
-This template should help get you started developing with Vue 3 in Vite.
+AI-Powered & Gamified Community Space
+
+- A fully customizable space for communities, with complete ownership and control.
+
+- A home where community culture is created and strengthened by all members.
+
+- An open-world Metaverse where communities connect & expand.
+
 
 ## Recommended IDE Setup
 
